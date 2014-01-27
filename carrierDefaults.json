@@ -1,0 +1,176 @@
+{
+    "defaultValues": [
+        {
+            "carrierName": "شركة الاتصالات",
+            "language": "ar"
+        },
+        {
+            "carrierName": "Operador",
+            "language": "ca"
+        },
+        {
+            "carrierName": "Operátor",
+            "language": "cs"
+        },
+        {
+            "carrierName": "Operatør",
+            "language": "da"
+        },
+        {
+            "carrierName": "Netzbetreiber",
+            "language": "de"
+        },
+        {
+            "carrierName": "Φορέας",
+            "language": "el"
+        },
+        {
+            "carrierName": "Carrier",
+            "language": "en_GB"
+        },
+        {
+            "carrierName": "Carrier",
+            "language": "en"
+        },
+        {
+            "carrierName": "Operador",
+            "language": "es"
+        },
+        {
+            "carrierName": "Operaattori",
+            "language": "fi"
+        },
+        {
+            "carrierName": "Opérateur",
+            "language": "fr"
+        },
+        {
+            "carrierName": "מפעיל",
+            "language": "he"
+        },
+        {
+            "carrierName": "Operater",
+            "language": "hr"
+        },
+        {
+            "carrierName": "Szolgáltató",
+            "language": "hu"
+        },
+        {
+            "carrierName": "Operator",
+            "language": "id"
+        },
+        {
+            "carrierName": "Gestore",
+            "language": "it"
+        },
+        {
+            "carrierName": "キャリア",
+            "language": "ja"
+        },
+        {
+            "carrierName": "네트워크 사업자",
+            "language": "ko"
+        },
+        {
+            "carrierName": "Pembawa",
+            "language": "ms"
+        },
+        {
+            "carrierName": "Aanbieder",
+            "language": "nl"
+        },
+        {
+            "carrierName": "Operatør",
+            "language": "no"
+        },
+        {
+            "carrierName": "Operator",
+            "language": "pl"
+        },
+        {
+            "carrierName": "Rede",
+            "language": "pt_PT"
+        },
+        {
+            "carrierName": "Operadora",
+            "language": "pt"
+        },
+        {
+            "carrierName": "Operator",
+            "language": "ro"
+        },
+        {
+            "carrierName": "Оператор",
+            "language": "ru"
+        },
+        {
+            "carrierName": "Operátor",
+            "language": "sk"
+        },
+        {
+            "carrierName": "Operatör",
+            "language": "sv"
+        },
+        {
+            "carrierName": "ผู้ให้บริการ",
+            "language": "th"
+        },
+        {
+            "carrierName": "Operatör",
+            "language": "tr"
+        },
+        {
+            "carrierName": "Оператор",
+            "language": "uk"
+        },
+        {
+            "carrierName": "Nhà cung cấp",
+            "language": "vi"
+        },
+        {
+            "carrierName": "运营商",
+            "language": "zh_CN"
+        },
+        {
+            "carrierName": "電信業者",
+            "language": "zh_TW"
+        }
+    ],
+    "languages": [
+        "ar",
+        "ca",
+        "cs",
+        "da",
+        "de",
+        "el",
+        "en_GB",
+        "en",
+        "es",
+        "fi",
+        "fr",
+        "he",
+        "hr",
+        "hu",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "ms",
+        "nl",
+        "no",
+        "pl",
+        "pt_PT",
+        "pt",
+        "ro",
+        "ru",
+        "sk",
+        "sv",
+        "th",
+        "tr",
+        "uk",
+        "vi",
+        "zh_CN",
+        "zh_TW"
+    ]
+}
