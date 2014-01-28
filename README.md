@@ -13,22 +13,22 @@ Usage Examples:
 ###Change all the things
 Change the carrier name for all languages.
 
-	sudo python carrierChange.py -c "My new carrier"
+	sudo python carrierChanger.py -c "My new carrier"
 
 ###Picking languages
 Changing the carrier name for english and german.
 
-	sudo python carrierChange.py -c "My new carrier" -l en de
+	sudo python carrierChanger.py -c "My new carrier" -l en de
 
 ###Reset 
 Reset all languages to their defaults. These are stored in defaultValues.json
 
-	sudo python carrierChange.py -r
+	sudo python carrierChanger.py -r
 
 ###Backup
 Create defaultsValues.json from your system settings. This can be useful with newer iOS releases.
 
-	sudo python carrierChange.py -b
+	sudo python carrierChanger.py -b
 
 
 
