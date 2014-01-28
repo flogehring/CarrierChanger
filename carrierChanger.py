@@ -65,13 +65,16 @@ class CarrierChanger(object):
 			print item["language"] +": " + item["carrierName"]
 		self.save_defaults_to_file(defaults)
 
-	def change_carrier_name(self, langs, new_name):
+	def change_carrier_name(self, langs, new_name, restart):
 		for lang in langs:
 			print "Changing carrier name for "+lang +" to: "+new_name
 			self.copy_source_file(lang)
 			self.convert_binary_to_xml(lang)
 			self.manipulate_carrier_name(lang, new_name)
 			self.copy_changed_file_into_production(lang)
+		if restart:
+			print "Restarting the simulator"
+			self.restart_simulator()
 
 	def restore_defaults(self):
 		print "Restoring defaults from json file"
@@ -79,7 +82,8 @@ class CarrierChanger(object):
 			# print item["language"] + ": " + item["carrierName"]
 			language = item["language"]
 			name = item["carrierName"]
-			self.change_carrier_name([language], name)
+			self.change_carrier_name([language], name, False)
+		self.restart_simulator()
 
 # Helpers
 	def copy_source_file(self, lang):
@@ -153,6 +157,12 @@ class CarrierChanger(object):
 			if (key.firstChild.nodeValue == "SIMULATOR_CARRIER_STRING"):
 				return strings[index].firstChild.nodeValue
 
+	def restart_simulator(self):
+		os.system("kill $(ps aux | grep 'Applications/iPhone Simulator.app' | head -n 1 | awk '{print $2}')")
+		os.system("open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/'iPhone Simulator.app'")
+
+
+
 
 #-----------------------------------------------------------
 # Go through the args
@@ -188,7 +198,7 @@ else:
 
 if args.carrier:
 	changer.carrier = args.carrier
-	changer.change_carrier_name(changer.langs, changer.carrier)
+	changer.change_carrier_name(changer.langs, changer.carrier, True)
 
 
 
