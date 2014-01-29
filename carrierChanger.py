@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys
 import argparse
 import subprocess
@@ -198,6 +199,7 @@ else:
 
 if args.carrier:
 	changer.carrier = args.carrier
+	# changer.carrier =  u'Müller'   # If you need to use a unicode carrier name uncomment this line and change the text to what you need.
 	changer.change_carrier_name(changer.langs, changer.carrier, True)
 
 
