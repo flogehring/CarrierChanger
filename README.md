@@ -7,6 +7,9 @@ Python script for changing the carrier name of the iOS Simulator.
 In order to write to the system folders it's required to call this script with `sudo`.  
 So only use it if you know what you are doing. You are responsible for your own system.
 
+![](example.jpg)
+![](example2.jpg)
+
 Usage Examples: 
 ---------------
 
