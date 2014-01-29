@@ -9,9 +9,14 @@ import codecs
 from xml.dom.minidom import parse, parseString
 import json
 
+# Input argument conversion
+def input_carrier(string):
+	value = unicode(string.decode('utf-8'))
+	return value
+
 #Arguments
 parser = argparse.ArgumentParser(description="Change the carrier name in the iOS Simulator")
-parser.add_argument("-c", "--carrier", help="The new carrier name", type=str) 
+parser.add_argument("-c", "--carrier", help="The new carrier name", type=input_carrier) 
 parser.add_argument("-r", "--restore", help="Restore values from defaultValues.json", 
 					action="store_true")
 parser.add_argument("-b", "--backup", help="Generate defaultValues.json from current values. Don't do this if you've already changed the carrier name.", 
@@ -22,11 +27,7 @@ args = parser.parse_args()
 #General purpose variables
 json_data=open('./carrierDefaults.json').read()
 defaults = json.loads(json_data)
-
 all_langs = defaults["languages"]
-# all_langs = ['ar', 'ca', 'cs', 'da', 'de', 'el', 'en_GB', 'en', 'es', 'fi', 'fr', 'he', 
-# 'hr', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'nl', 'no', 'pl', 'pt_PT', 'pt', 'ro', 
-# 'ru', 'sk', 'sv', 'th', 'tr', 'uk', 'vi', 'zh_CN', 'zh_TW']
 
 #Paths
 temp_path = expanduser("~") + "/Desktop/SpringBoard/"
@@ -199,7 +200,6 @@ else:
 
 if args.carrier:
 	changer.carrier = args.carrier
-	# changer.carrier =  u'Müller'   # If you need to use a unicode carrier name uncomment this line and change the text to what you need.
 	changer.change_carrier_name(changer.langs, changer.carrier, True)
 
 
