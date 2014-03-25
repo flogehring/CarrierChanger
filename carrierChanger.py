@@ -32,7 +32,7 @@ all_langs = defaults["languages"]
 #Paths
 temp_path = expanduser("~") + "/Desktop/SpringBoard/"
 production_path = ("/Applications/Xcode.app/Contents/Developer/Platforms/"
-			"iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/System/"
+			"iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.1.sdk/System/"
 			"Library/CoreServices/SpringBoard.app/")
 
 
