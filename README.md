@@ -38,7 +38,7 @@ Todo
 -----
 
 - Enable restoring for a given set of languages only
-
+- Dynamically get the latest simulator version so it's not hard-coded
 
 Credit
 -------
