@@ -33,6 +33,15 @@ Create defaultsValues.json from your system settings. This can be useful with ne
 	sudo python carrierChanger.py -b
 
 
+###Change the time
+This changes the system time of your Mac to **09:41** and restarts the simulator. 
+
+	sudo python charrierChanger.py -tc
+
+###Reset the time
+This resets the system time of your Mac by syncing with Apple's servers and restarts the simulator.
+
+	sudo python charrierChanger.py -ts
 
 Todo
 -----

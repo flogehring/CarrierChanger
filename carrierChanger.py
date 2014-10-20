@@ -4,6 +4,7 @@ import argparse
 import subprocess
 import os
 import shutil
+import datetime
 from os.path import expanduser
 import codecs
 from xml.dom.minidom import parse, parseString
@@ -22,6 +23,8 @@ parser.add_argument("-r", "--restore", help="Restore values from defaultValues.j
 parser.add_argument("-b", "--backup", help="Generate defaultValues.json from current values. Don't do this if you've already changed the carrier name.", 
 					action="store_true")
 parser.add_argument("-l", "--languages", nargs='+', type=str, help="Provide a list of languages, by default, the carrier will be changed for all languages")
+parser.add_argument("-tc", "--timechange", help="Change the system time to 09:41", action="store_true")
+parser.add_argument("-ts", "--timesync", help="Reset the system time by syncing with Apple's servers", action="store_true")
 args = parser.parse_args()
 
 #General purpose variables
@@ -32,7 +35,7 @@ all_langs = defaults["languages"]
 #Paths
 temp_path = expanduser("~") + "/Desktop/SpringBoard/"
 production_path = ("/Applications/Xcode.app/Contents/Developer/Platforms/"
-			"iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.1.sdk/System/"
+			"iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/"
 			"Library/CoreServices/SpringBoard.app/")
 
 
@@ -160,15 +163,25 @@ class CarrierChanger(object):
 				return strings[index].firstChild.nodeValue
 
 	def restart_simulator(self):
-		os.system("kill $(ps aux | grep 'Applications/iPhone Simulator.app' | head -n 1 | awk '{print $2}')")
-		os.system("open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/'iPhone Simulator.app'")
+		os.system("kill $(ps aux | grep 'Applications/iOS Simulator.app' | head -n 1 | awk '{print $2}')")
+		os.system("open '/Applications/Xcode.app/Contents/Developer/Applications/iOS Simulator.app'")
 
+	def change_time(self):
+		currentDate = "{:%m%d%H%M%Y}".format(datetime.datetime.now())
+		print "Current Date: " + currentDate
+		newDate = currentDate[:4] + "0941" + currentDate[8:]
+		print "New Date:     "+ newDate
+		os.system("date "+newDate)
+		self.restart_simulator()
 
+	def sync_time(self):
+		os.system("ntpdate -u time.apple.com")
+		self.restart_simulator()
 
 
 #-----------------------------------------------------------
 # Go through the args
-if not args.restore and not args.carrier and not args.backup:
+if not args.restore and not args.carrier and not args.backup and not args.timechange and not args.timesync:
 	parser.print_help()
 	sys.exit()
 else:
@@ -179,6 +192,14 @@ if args.restore:
 
 if args.backup:
 	changer.generate_defaults(all_langs)
+
+if args.timechange:
+	changer.change_time()
+
+if args.timesync:
+	changer.sync_time()
+
+
 
 
 
