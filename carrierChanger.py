@@ -17,14 +17,16 @@ def input_carrier(string):
 
 #Arguments
 parser = argparse.ArgumentParser(description="Change the carrier name in the iOS Simulator")
-parser.add_argument("-c", "--carrier", help="The new carrier name", type=input_carrier) 
-parser.add_argument("-r", "--restore", help="Restore values from defaultValues.json", 
+parser.add_argument("-c", "--carrier", help="The new carrier name", type=input_carrier)
+parser.add_argument("-r", "--restore", help="Restore values from defaultValues.json",
 					action="store_true")
-parser.add_argument("-b", "--backup", help="Generate defaultValues.json from current values. Don't do this if you've already changed the carrier name.", 
+parser.add_argument("-b", "--backup", help="Generate defaultValues.json from current values. Don't do this if you've already changed the carrier name.",
 					action="store_true")
 parser.add_argument("-l", "--languages", nargs='+', type=str, help="Provide a list of languages, by default, the carrier will be changed for all languages")
 parser.add_argument("-tc", "--timechange", help="Change the system time to 09:41", action="store_true")
 parser.add_argument("-ts", "--timesync", help="Reset the system time by syncing with Apple's servers", action="store_true")
+parser.add_argument("-nr", "--norestart", help="Prevent restarting the simulator after applying changes.", action="store_true")
+parser.add_argument("-o", "--open", help="Only open the simulator.", action="store_true")
 args = parser.parse_args()
 
 #General purpose variables
@@ -51,7 +53,8 @@ class CarrierChanger(object):
 	def __init__(self, langs, carrier):
 		self.langs = langs
 		self.carrier = carrier
-		
+		self.no_restart = False
+
 
 	def print_description(self):
 		print "Languages" + str(self.langs)
@@ -78,7 +81,6 @@ class CarrierChanger(object):
 			self.manipulate_carrier_name(lang, new_name)
 			self.copy_changed_file_into_production(lang)
 		if restart:
-			print "Restarting the simulator"
 			self.restart_simulator()
 
 	def restore_defaults(self):
@@ -106,13 +108,13 @@ class CarrierChanger(object):
 	def manipulate_carrier_name(self, lang, carrierName):
 		filename = temp_path + "SpringBoard-"+lang+".strings"
 		content = open(filename)
-		
+
 		content = parse(content)
 		dictElement = content.getElementsByTagName("dict")[0]
-		
+
 		keys = dictElement.getElementsByTagName("key")
 		strings = dictElement.getElementsByTagName("string")
-		
+
 		for index, key in enumerate(keys):
 			if (key.firstChild.nodeValue == "SIMULATOR_CARRIER_STRING"):
 				print lang+": "+ strings[index].firstChild.nodeValue + " --> " + carrierName
@@ -157,14 +159,17 @@ class CarrierChanger(object):
 		dictElement = content.getElementsByTagName("dict")[0]
 		keys = dictElement.getElementsByTagName("key")
 		strings = dictElement.getElementsByTagName("string")
-		
+
 		for index, key in enumerate(keys):
 			if (key.firstChild.nodeValue == "SIMULATOR_CARRIER_STRING"):
 				return strings[index].firstChild.nodeValue
 
 	def restart_simulator(self):
-		os.system("kill $(ps aux | grep 'Applications/iOS Simulator.app' | head -n 1 | awk '{print $2}')")
-		os.system("open '/Applications/Xcode.app/Contents/Developer/Applications/iOS Simulator.app'")
+		if not self.no_restart:
+			print "Restarting the simulator"
+			os.system("kill $(ps aux | grep 'Applications/iOS Simulator.app' | head -n 1 | awk '{print $2}')")
+			self.open_simulator()
+
 
 	def change_time(self):
 		currentDate = "{:%m%d%H%M%Y}".format(datetime.datetime.now())
@@ -178,10 +183,13 @@ class CarrierChanger(object):
 		os.system("ntpdate -u time.apple.com")
 		self.restart_simulator()
 
+	def open_simulator(self):
+		os.system("open '/Applications/Xcode.app/Contents/Developer/Applications/iOS Simulator.app'")
+
 
 #-----------------------------------------------------------
 # Go through the args
-if not args.restore and not args.carrier and not args.backup and not args.timechange and not args.timesync:
+if not args.restore and not args.carrier and not args.backup and not args.timechange and not args.timesync and not args.open:
 	parser.print_help()
 	sys.exit()
 else:
@@ -193,17 +201,22 @@ if args.restore:
 if args.backup:
 	changer.generate_defaults(all_langs)
 
+if args.norestart:
+	changer.no_restart = True
+
 if args.timechange:
 	changer.change_time()
 
 if args.timesync:
 	changer.sync_time()
 
+if not args.restore and not args.carrier and not args.backup and not args.timechange and not args.timesync and args.open:
+	changer.open_simulator()
 
 
 
 
-if args.languages and not args.restore and not args.backup:
+if args.languages and not args.restore and not args.backup and not args.open:
 	all_clear = True
 	# Make sure the languages are all valid
 	for lang in args.languages:
@@ -222,8 +235,3 @@ else:
 if args.carrier:
 	changer.carrier = args.carrier
 	changer.change_carrier_name(changer.langs, changer.carrier, True)
-
-
-
-
-		
